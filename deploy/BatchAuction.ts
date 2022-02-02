@@ -9,6 +9,7 @@ const deployFunction: DeployFunction = async function ({
   const { deploy } = deployments;
 
   const { deployer } = await getNamedAccounts();
+  console.log("Deploying contracts with the account:", deployer);
 
   const { address } = await deploy("BatchAuction", {
     from: deployer,

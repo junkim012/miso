@@ -152,6 +152,9 @@ contract BatchAuction is  IMisoMarket, MISOAccessControls, BoringBatchable, Safe
             require(IERC20(_paymentCurrency).decimals() > 0, "BatchAuction: Payment currency is not ERC20");
         }
 
+        // set approval for transfering auction token from sender to contract
+        // IERC20(_token).approve(address(this), _totalTokens);
+
         marketStatus.minimumCommitmentAmount = BoringMath.to128(_minimumCommitmentAmount);
         
         marketInfo.startTime = BoringMath.to64(_startTime);
@@ -580,6 +583,10 @@ contract BatchAuction is  IMisoMarket, MISOAccessControls, BoringBatchable, Safe
 
     function getTotalTokens() external view returns(uint256) {
         return uint256(marketInfo.totalTokens);
+    }
+
+    function getEndTiime() external view returns(uint256) {
+        return marketInfo.endTime; 
     }
 
 }

@@ -19,6 +19,8 @@ import { removeConsoleLog } from 'hardhat-preprocessor'
 const accounts = {
   mnemonic: process.env.MNEMONIC || 'test test test test test test test test test test test junk',
 }
+console.log('accounts: ', accounts); 
+const RINKEBY_PRIVATE_KEY = '8dda6cd746c34196ee0f9332a1f4012745e2b56c5dd9ac0b0b46a7ab8e5669fc';
 
 import './tasks'
 
@@ -36,6 +38,8 @@ const config: HardhatUserConfig = {
   //     },
   //   ],
   // },
+
+  
   gasReporter: {
     coinmarketcap: process.env.COINMARKETCAP_API_KEY,
     currency: 'USD',
@@ -85,7 +89,8 @@ const config: HardhatUserConfig = {
     },
     rinkeby: {
       url: `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
-      accounts,
+      // url: "https://rinkeby.infura.io/v3/da5d5171cead4ec884a27e4f468a27f0",
+      accounts: [`${RINKEBY_PRIVATE_KEY}`],
       chainId: 4,
       live: true,
       saveDeployments: true,

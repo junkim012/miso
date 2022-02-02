@@ -6,3 +6,4 @@ import "./add-all-tokens";
 import "./lock";
 import "./unlock";
 import "./verify-all";
+import "./initMarket"
