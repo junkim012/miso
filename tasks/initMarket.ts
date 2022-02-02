@@ -110,6 +110,16 @@ import { minimum } from "@sushiswap/core-sdk";
             }
 
             console.log("Starting Auction: "); 
+            console.log("funder: ", taskArgs.funder); 
+            console.log("token: ", taskArgs.token); 
+            console.log("totalTokens: ", totalTokens); 
+            console.log("startTime: ", taskArgs.starttime ); 
+            console.log("endTime: ", taskArgs.endtime); 
+            console.log("paymentCurrency: ", taskArgs.paymentcurrency); 
+            console.log("minimumCommitmentAmouont: ", minimumCommitmentAmount); 
+            console.log("admin: ", taskArgs.admin); 
+            console.log("pointList: ", taskArgs.pointlist); 
+            console.log("wallet: ", taskArgs.wallet); 
             const tx = await batchAuction
                 .connect(caller)
                 .initAuction(
@@ -121,7 +131,7 @@ import { minimum } from "@sushiswap/core-sdk";
                     taskArgs.paymentcurrency,
                     minimumCommitmentAmount,
                     taskArgs.admin,
-                    taskArgs.pointList,
+                    taskArgs.pointlist,
                     taskArgs.wallet
                 );
 
