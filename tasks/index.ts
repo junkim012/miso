@@ -7,3 +7,4 @@ import "./lock";
 import "./unlock";
 import "./verify-all";
 import "./initMarket"
+import "./sample"; 

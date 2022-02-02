@@ -3,6 +3,7 @@ import "@nomiclabs/hardhat-ethers";
 import { ethers } from "ethers"; 
 import { task } from "hardhat/config";
 import { Contract } from "ethers";
+import { minimum } from "@sushiswap/core-sdk";
 
     task("initMarket", "Starts a new batch auction")
         .addParam(
@@ -14,23 +15,23 @@ import { Contract } from "ethers";
             "The address of the token being auctioned off"
         )
         .addParam(
-            "totalTokens",
+            "totaltokens",
             "The total number of tokens to be auctioned off"
         )
         .addParam(
-            "startTime",
+            "starttime",
             "The start time of the auction"
         )
         .addParam(
-            "endTime",
+            "endtime",
             "The end time of the auction"
         )
         .addParam(
-            "paymentCurrency",
+            "paymentcurrency",
             "The token being used to purchase the token being auctioned off"
         )
         .addParam(
-            "minimumCommitmentAmount",
+            "minimumcommitmentamount",
             "The minimum amount collected at which the auction will be successful"
         )
         .addParam(
@@ -38,7 +39,7 @@ import { Contract } from "ethers";
             "address that can finalize the auction"
         )
         .addParam(
-            "pointList",
+            "pointlist",
             "address that manages auction approvals"
         )
         .addParam(
@@ -58,13 +59,19 @@ import { Contract } from "ethers";
 
             const batchAuction = authenticator; 
             
+            console.log('batchAuction: ', batchAuction); 
+
             const token = await hre.ethers.getContractAt(
                 "ERC20",
                 taskArgs.token
             )
+
+            console.log('token: ', token); 
+
+
             const paymentCurrency = await hre.ethers.getContractAt(
                 "ERC20",
-                taskArgs.paymentCurrency
+                taskArgs.paymentcurrency
             )
 
             /*
@@ -72,14 +79,17 @@ import { Contract } from "ethers";
              and later converted here. 
              */
             const totalTokens = ethers.utils.parseUnits(
-                taskArgs.totalTokens,
+                taskArgs.totaltokens,
                 await token.callStatic.decimals(),
             )
+            console.log('totalTokens: ', totalTokens); 
 
             const minimumCommitmentAmount = ethers.utils.parseUnits(
-                taskArgs.minimumCommitmentAmount,
+                taskArgs.minimumcommitmentamount,
                 await paymentCurrency.callStatic.decimals(), 
             )
+
+            console.log('minimumCommitmentAmount: ', minimumCommitmentAmount); 
 
             console.log("Using BatchAuction deployed to: ", )
 
@@ -87,6 +97,9 @@ import { Contract } from "ethers";
                 caller.address,
                 batchAuction.address,
             );
+
+            console.log('allowance: ', allowance); 
+
             if (totalTokens.gt(allowance)) {
                 console.log("totalTokens greater than allowance, approving tokens"); 
                 const tx = await token
@@ -99,13 +112,13 @@ import { Contract } from "ethers";
             console.log("Starting Auction: "); 
             const tx = await batchAuction
                 .connect(caller)
-                .initMarket(
+                .initAuction(
                     taskArgs.funder,
                     taskArgs.token,
                     totalTokens,
-                    taskArgs.startTime,
-                    taskArgs.endTime,
-                    taskArgs.paymentCurrency,
+                    taskArgs.starttime,
+                    taskArgs.endtime,
+                    taskArgs.paymentcurrency,
                     minimumCommitmentAmount,
                     taskArgs.admin,
                     taskArgs.pointList,
